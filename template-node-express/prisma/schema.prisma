@@ -1,0 +1,50 @@
+// src/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  User
+  Admin
+  SuperAdmin
+}
+
+enum Status {
+  ENABLED
+  DISABLED
+}
+
+enum CodeType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  role      RoleName @default(User)
+  status    Status   @default(ENABLED)
+  isVerified Boolean @default(false)
+  codes     Code[]   @relation("UserCodes")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Code {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String
+  type      CodeType
+  userId    String   @db.Uuid
+  user      User     @relation("UserCodes", fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
