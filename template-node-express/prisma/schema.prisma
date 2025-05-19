@@ -1,4 +1,5 @@
 // src/prisma/schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,10 +9,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//
+// ENUMS
+//
+
+enum CodeType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
 enum RoleName {
   User
   Admin
   SuperAdmin
+}
+
+enum SpotStatus {
+  AVAILABLE
+  OCCUPIED
+  RESERVED
+  OUT_OF_ORDER
+}
+
+enum SpotType {
+  REGULAR
+  COMPACT
+  HANDICAPPED
+  ELECTRIC
 }
 
 enum Status {
@@ -19,24 +43,32 @@ enum Status {
   DISABLED
 }
 
-enum CodeType {
-  EMAIL_VERIFICATION
-  PASSWORD_RESET
+enum VehicleType {
+  CAR
+  MOTORCYCLE
+  TRUCK
+  ELECTRIC
 }
 
-model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  role      RoleName @default(User)
-  status    Status   @default(ENABLED)
-  isVerified Boolean @default(false)
-  codes     Code[]   @relation("UserCodes")
+//
+// MODELS
+//
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id         String   @id @default(uuid()) @db.Uuid
+  firstName  String
+  lastName   String
+  email      String   @unique
+  password   String
+  role       RoleName @default(User)
+  status     Status   @default(ENABLED)
+  isVerified Boolean  @default(false)
+
+  codes      Code[]   @relation("UserCodes")
+  vehicles   Vehicle[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Code {
@@ -46,5 +78,86 @@ model Code {
   userId    String   @db.Uuid
   user      User     @relation("UserCodes", fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
+
   createdAt DateTime @default(now())
+}
+
+model Vehicle {
+  id          String      @id @default(uuid()) @db.Uuid
+  plateNumber String      @unique
+  type        VehicleType
+  ownerId     String      @db.Uuid
+  owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  reservations Reservation[]
+  tickets      Ticket[]
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Reservation {
+  id          String      @id @default(uuid()) @db.Uuid
+  startTime   DateTime
+  endTime     DateTime
+  spotId      String      @db.Uuid
+  vehicleId   String      @db.Uuid
+
+  spot        ParkingSpot @relation(fields: [spotId], references: [id], onDelete: Cascade)
+  vehicle     Vehicle     @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model ParkingZone {
+  id         String        @id @default(uuid()) @db.Uuid
+  name       String
+  location   String
+
+  spots      ParkingSpot[]
+
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model ParkingSpot {
+  id           String        @id @default(uuid()) @db.Uuid
+  spotNumber   String
+  status       SpotStatus    @default(AVAILABLE)
+  type         SpotType      @default(REGULAR)
+  zoneId       String        @db.Uuid
+
+  zone         ParkingZone   @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+  tickets      Ticket[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Ticket {
+  id          String      @id @default(uuid()) @db.Uuid
+  vehicleId   String      @db.Uuid
+  spotId      String      @db.Uuid
+  entryTime   DateTime
+  exitTime    DateTime?
+  durationMin Int?        // Calculated: minutes between entry and exit
+  totalFee    Float?      // Calculated: based on rate * duration
+
+  vehicle     Vehicle     @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  spot        ParkingSpot @relation(fields: [spotId], references: [id], onDelete: Cascade)
+  receipt     Receipt?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Receipt {
+  id         String   @id @default(uuid()) @db.Uuid
+  ticketId   String   @unique @db.Uuid
+  issuedAt   DateTime @default(now())
+  amountPaid Float
+
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
