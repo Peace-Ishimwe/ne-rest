@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ForgotPasswordFormData, forgotPasswordSchema } from "@/lib/schemas";
+import { ForgotPasswordFormData, forgotPasswordSchema } from "@/lib/schemas/auth.schemas";
 import { useForgotPassword } from "@/hooks/use-auth";
 
 export default function ForgotPasswordPage() {

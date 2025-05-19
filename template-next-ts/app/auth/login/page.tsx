@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginFormData } from "@/lib/schemas";
+import { loginSchema, LoginFormData } from "@/lib/schemas/auth.schemas";
 
 export default function LoginPage() {
   const form = useForm<LoginFormData>({

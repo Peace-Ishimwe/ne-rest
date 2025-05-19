@@ -9,7 +9,7 @@ import { useRegister } from "@/hooks/use-auth";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, RegisterFormData } from "@/lib/schemas";
+import { registerSchema, RegisterFormData } from "@/lib/schemas/auth.schemas";
 
 export default function RegisterPage() {
   const form = useForm<RegisterFormData>({
@@ -22,6 +22,7 @@ export default function RegisterPage() {
       confirmPassword: "",
     },
   });
+
   const registerMutation = useRegister();
 
   async function onSubmit(data: RegisterFormData) {

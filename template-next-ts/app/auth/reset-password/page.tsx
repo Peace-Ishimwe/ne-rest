@@ -10,7 +10,7 @@ import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ResetPasswordFormData, resetPasswordSchema } from "@/lib/schemas";
+import { ResetPasswordFormData, resetPasswordSchema } from "@/lib/schemas/auth.schemas";
 import { useResetPassword } from "@/hooks/use-auth";
 
 

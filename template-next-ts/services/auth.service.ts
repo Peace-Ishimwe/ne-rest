@@ -1,17 +1,17 @@
 import { authorizedAPI, unauthorizedAPI } from "@/config/axios.config";
 import { UtilsService } from "./utils.service";
-import { ChangePasswordFormData, ForgotPasswordFormData, ResetPasswordFormData, VerifyEmailFormData } from "@/lib/schemas";
+import { ChangePasswordFormData, ForgotPasswordFormData, LoginFormData, RegisterFormData, ResetPasswordFormData, VerifyEmailFormData } from "@/lib/schemas/auth.schemas";
 
 export class AuthService {
     constructor(
         private readonly utils: UtilsService
     ) { }
 
-    register(userData: RegisterDto): Promise<any> {
+    register(userData: RegisterFormData): Promise<any> {
         return this.utils.handleApiRequest(() => unauthorizedAPI.post('/auth/register', userData));
     }
 
-    login(userData: LoginDto): Promise<any> {
+    login(userData: LoginFormData): Promise<any> {
         return this.utils.handleApiRequest(() => unauthorizedAPI.post('/auth/login', userData));
     }
 

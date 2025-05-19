@@ -15,7 +15,7 @@ import {
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
 import { useResendOtp, useVerifyEmail } from "@/hooks/use-auth";
-import { VerifyEmailFormData, verifyEmailSchema } from "@/lib/schemas";
+import { VerifyEmailFormData, verifyEmailSchema } from "@/lib/schemas/auth.schemas";
 import { UtilsService } from "@/services/utils.service";
 
 const utilsService = new UtilsService()

@@ -9,9 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 import {
     ChangePasswordFormData,
     ForgotPasswordFormData,
+    RegisterFormData,
     ResetPasswordFormData,
     VerifyEmailFormData
-} from "@/lib/schemas";
+} from "@/lib/schemas/auth.schemas";
 
 const authService = new AuthService(new UtilsService());
 const utils = new UtilsService();
@@ -20,7 +21,7 @@ export const useRegister = () => {
     const router = useRouter()
 
     return useMutation({
-        mutationFn: (userData: RegisterDto) =>
+        mutationFn: (userData: RegisterFormData) =>
             authService.register(userData),
         onSuccess: async (response: {
             success: boolean;

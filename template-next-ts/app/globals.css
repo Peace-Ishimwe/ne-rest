@@ -38,6 +38,12 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-primary: #012473;
+  --color-subprimary: #F6F9FF;
+  --color-textIcon: #494C52;
+  --color-darkBlue: #012473;
+  --color-textHeading: #000B22;
+  --color-background: #E7F1EE;
+  --color-textmain: #494C52;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -132,7 +138,7 @@
 .inverted-border-radius::before {
   content: "";
   position: absolute;
-  
+
   background-color: transparent;
   bottom: -50px;
   left: 0;
@@ -145,7 +151,7 @@
 .inverted-border-radius::after {
   content: "";
   position: absolute;
-  
+
   background-color: transparent;
   bottom: 45px;
   right: -30px;
@@ -185,7 +191,8 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0);
     }
     50% {
@@ -196,16 +203,17 @@
   .animate-float {
     animation: float 4s ease-in-out infinite;
   }
-  
+
   @keyframes pulse-slow {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
       opacity: 0.8;
     }
   }
-  
+
   .animate-pulse-slow {
     animation: pulse-slow 3s infinite;
   }
@@ -221,4 +229,8 @@
 
 .main-dark-button {
   @apply px-6 justify-center h-[38px] space-x-2 bg-[#012473] text-white flex items-center rounded hover:!bg-primary/90 transition-all duration-300 cursor-pointer;
+}
+
+.main-select {
+  @apply rounded px-5 py-3 text-[#5A5A5A] placeholder:text-[#5A5A5A] bg-[#F6F9FF] text-sm w-full outline-none mt-1;
 }
