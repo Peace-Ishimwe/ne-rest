@@ -1,110 +1,72 @@
 // Define user roles
-type UserRole = "USER" | "SUPERVISOR" | "ADMIN";
+type UserRole = "User" | "Admin" | "SuperAdmin";
 
 // Common navigation items that might be shared across roles
-const COMMON_NAV_ITEMS: Partial<Record<UserRole, NavItem[]>> = {
-  USER: [{ name: "Dashboard", href: "/app", icon: "duo-icons:app" }],
-  ADMIN: [{ name: "Dashboard", href: "/admin", icon: "duo-icons:app" }],
-  SUPERVISOR: [{ name: "Dashboard", href: "/supervisor", icon: "duo-icons:app" }],
-};
+const COMMON_NAV_ITEMS: NavItem[] = [
+  { name: "Dashboard", href: "/dashboard", icon: "duo-icons:app" },
+];
 
 // Role-specific navigation items
 const ROLE_SPECIFIC_NAV_ITEMS: Partial<Record<UserRole, NavItem[]>> = {
-  USER: [
+  User: [
     {
-      name: "Documents",
-      icon: "cuida:document-texts-outline",
+      name: "My Parking",
+      icon: "fluent:vehicle-car-parking-24-regular",
       subItems: [
-        { name: "All Documents", href: "/app/documents/all" },
-        { name: "My documents", href: "/app/documents/my-documents" },
+        { name: "View Bookings", href: "/parking/bookings" },
+        { name: "Reserve Spot", href: "/parking/reserve" },
       ],
     },
     {
-      name: "Announce Found",
-      icon: "gg:search-found",
-      href: "/app/announce-found",
+      name: "Parking History",
+      icon: "mdi:history",
+      href: "/parking/history",
     },
     {
-      name: "Announcements",
-      href: "/app/announcements",
-      icon: "cuida:folder-outline",
+      name: "Parking Rules",
+      icon: "mdi:clipboard-list-outline",
+      href: "/parking/rules",
     },
   ],
-  ADMIN: [
+  Admin: [
     {
-      name: "Announcements",
-      icon: "mingcute:announcement-line",
-      href: "/admin/announcements",
+      name: "Manage Parking Spots",
+      icon: "mdi:car-wrench",
+      href: "/admin/parking-spots",
     },
     {
-      name: "Documents",
-      href: "/admin/documents",
-      icon: "solar:documents-outline",
-      subItems: [
-        { name: "Announced Founds", href: "/admin/documents/announced-founds" },
-        { name: "Claimed Founds", href: "/admin/documents/claimed-founds" },
-        { name: "Pick Up", href: "/admin/documents/pick-up" },
-        { name: "Delivery", href: "/admin/documents/delivery" },
-      ],
+      name: "User Bookings",
+      icon: "mdi:clipboard-account-outline",
+      href: "/admin/user-bookings",
     },
     {
-      name: "Supervisors",
-      href: "/admin/supervisors",
-      icon: "ic:round-supervisor-account",
+      name: "Reports",
+      icon: "mdi:file-chart-outline",
+      href: "/admin/reports",
     },
-    { name: "Chats", href: "/admin/chats", icon: "lets-icons:chat-fill" },
-    { name: "Notifications", href: "/admin/notifications", icon: "solar:bell-bold" },
-    {
-      name: "Help Center",
-      href: "/admin/help-center",
-      icon: "material-symbols:help-outline",
-    },
-    { name: "Settings", href: "/admin/settings", icon: "ci:settings" },
   ],
-  SUPERVISOR: [
+  SuperAdmin: [
     {
-      name: "Announcements",
-      icon: "mingcute:announcement-line",
-      href: "/supervisor/announcements",
+      name: "Admin Management",
+      icon: "mdi:shield-account-outline",
+      href: "/superadmin/admins",
     },
     {
-      name: "Found documents",
-      icon: "gg:search-found",
-      subItems: [
-        { name: "Non-Reviewed", href: "/supervisor/documents/found/non-reviewed" },
-        { name: "Reviewed", href: "/supervisor/documents/found/reviewed" },
-      ],
+      name: "System Settings",
+      icon: "mdi:cog-outline",
+      href: "/superadmin/settings",
     },
     {
-      name: "To-Deliver Docs",
-      href: "/supervisor/documents/delivery",
-      icon: "icon-park-outline:delivery",
-      subItems: [
-        { name: "Pending delivery", href: "/supervisor/documents/delivery/pending" },
-        { name: "Initiated delivery", href: "/supervisor/documents/delivery/initiated" },
-        { name: "Completed delivery", href: "/supervisor/documents/delivery/completed" },
-      ],
-    },
-    {
-      name: "Document Tracking",
-      href: "/supervisor/documents/tracking",
-      icon: "cuida:document-texts-outline",
-      subItems: [
-        { name: "Initiated delivery", href: "/supervisor/documents/tracking/initiated" },
-        { name: "Completed delivery", href: "/supervisor/documents/tracking/completed" },
-      ],
-    },
-    {
-      name: "Pickup Docs",
-      href: "/supervisor/documents/pickup",
-      icon: "mynaui:credit-card-check",
+      name: "Audit Logs",
+      icon: "mdi:file-document-alert-outline",
+      href: "/superadmin/logs",
     },
   ],
 };
 
 // Main function to get navigation items based on role
 export function getNavItems(role: UserRole): NavItem[] {
-  const commonItems = COMMON_NAV_ITEMS[role] || [];
+  const commonItems = COMMON_NAV_ITEMS || [];
   const specificItems = ROLE_SPECIFIC_NAV_ITEMS[role] || [];
 
   return [...commonItems, ...specificItems];

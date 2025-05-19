@@ -13,8 +13,7 @@ import {
 import { getNavItems } from "@/utils/getNavItems";
 import UserCard from "@/components/card/user-card";
 import { Separator } from "@/components/ui/separator";
-import { UtilsService } from "@/services/utils.service";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface Props {
   setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,13 +26,11 @@ const DashboardSidebar: React.FC<Props> = ({
   isSidebarMinimized,
   setIsSidebarMinimized,
 }) => {
-  const utils = new UtilsService();
   const token = new Cookies().get("accessToken");
   const decodedToken: any = jwtDecode(token);
   const role = decodedToken.role;
 
   const { user } = useApp();
-  const router = useRouter();
   const pathName = usePathname();
   const navItems = getNavItems(role);
   const locale = usePathname().split("/")[1];
@@ -72,7 +69,7 @@ const DashboardSidebar: React.FC<Props> = ({
           className="border-none"
         >
           <AccordionTrigger
-            className={`text-sm transition duration-300 hover:bg-primary hover:text-white h-[44px] px-3 rounded-lg text-[#494C52] w-full flex items-center justify-between gap-2 font-medium ${
+            className={`text-sm transition duration-300 hover:bg-primary hover:text-white h-[44px] px-3 rounded-lg text-[#494C52] w-full flex items-center justify-between gap-2 font-medium cursor-pointer ${
               isActive ? "bg-primary text-white relative" : ""
             }`}
             onClick={() => handleNavItemClick(item.name)}
@@ -92,7 +89,7 @@ const DashboardSidebar: React.FC<Props> = ({
             <AccordionContent className="">
               <ol className="relative flex mt-2 w-full transition duration-300 ml-12">
                 <div className="w-[2px] py-2">
-                  <div className="w-full h-full bg-black2"></div>
+                  <div className="w-full h-full bg-[#494C52]"></div>
                 </div>
                 <div>
                   {item.subItems.map((subItem, index) => {
