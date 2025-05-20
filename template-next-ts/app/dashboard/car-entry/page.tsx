@@ -41,29 +41,70 @@ type Ticket = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 40,
+    fontFamily: "Helvetica",
     fontSize: 12,
+    backgroundColor: "#F5F6F5",
+  },
+  header: {
+    borderBottom: "2 solid #003087",
+    paddingBottom: 10,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  logoText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#003087",
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
+    fontWeight: "bold",
     textAlign: "center",
+    color: "#003087",
     marginBottom: 20,
   },
   section: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 5,
+    padding: 10,
     marginBottom: 10,
+    border: "1 solid #E0E0E0",
   },
   label: {
     fontSize: 12,
     fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 4,
   },
   value: {
     fontSize: 12,
+    color: "#555555",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 30,
+    left: 40,
+    right: 40,
+    borderTop: "1 solid #E0E0E0",
+    paddingTop: 10,
+    textAlign: "center",
+    fontSize: 10,
+    color: "#777777",
   },
 });
 
 const TicketPDF: React.FC<{ ticket: Ticket }> = ({ ticket }) => (
   <Document>
     <Page size="A4" style={styles.page}>
+      <View style={styles.header}>
+        <Text style={styles.logoText}>Parking Management</Text>
+        <Text style={{ fontSize: 10, color: "#555555" }}>
+          Generated on {new Date().toLocaleDateString()}
+        </Text>
+      </View>
       <Text style={styles.title}>Parking Ticket</Text>
       <View style={styles.section}>
         <Text style={styles.label}>Ticket ID</Text>
@@ -83,7 +124,10 @@ const TicketPDF: React.FC<{ ticket: Ticket }> = ({ ticket }) => (
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Charging Rate</Text>
-        <Text style={styles.value}>${ticket.chargingFeesPerHour ?? "N/A"}/hour</Text>
+        <Text style={styles.value}>${ticket.chargingFeesPerHour ?? "1000"}/hour</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>Parking Management System | Contact: support@parkingmanagement.com | (123) 456-7890</Text>
       </View>
     </Page>
   </Document>
@@ -92,6 +136,12 @@ const TicketPDF: React.FC<{ ticket: Ticket }> = ({ ticket }) => (
 const BillPDF: React.FC<{ carEntry: CarEntry; ticket: Ticket; durationHours: number }> = ({ carEntry, ticket, durationHours }) => (
   <Document>
     <Page size="A4" style={styles.page}>
+      <View style={styles.header}>
+        <Text style={styles.logoText}>Parking Management</Text>
+        <Text style={{ fontSize: 10, color: "#555555" }}>
+          Generated on {new Date().toLocaleDateString()}
+        </Text>
+      </View>
       <Text style={styles.title}>Parking Bill</Text>
       <View style={styles.section}>
         <Text style={styles.label}>Ticket ID</Text>
@@ -124,6 +174,9 @@ const BillPDF: React.FC<{ carEntry: CarEntry; ticket: Ticket; durationHours: num
       <View style={styles.section}>
         <Text style={styles.label}>Total Amount Charged</Text>
         <Text style={styles.value}>${carEntry.chargedAmount.toFixed(2)}</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>Parking Management System | Contact: support@parkingmanagement.com | (123) 456-7890</Text>
       </View>
     </Page>
   </Document>
