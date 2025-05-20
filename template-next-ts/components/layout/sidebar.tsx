@@ -33,7 +33,6 @@ const DashboardSidebar: React.FC<Props> = ({
   const { user } = useApp();
   const pathName = usePathname();
   const navItems = getNavItems(role);
-  const locale = usePathname().split("/")[1];
   const [expandedItem, setExpandedItem] = useState<string | undefined>(
     undefined
   );
@@ -49,15 +48,10 @@ const DashboardSidebar: React.FC<Props> = ({
 
   const renderNavItem = (item: NavItem) => {
     const isActive =
-      pathName === `/${locale}${item.href}` ||
+      pathName === `${item.href}` ||
       item.subItems?.some((subItem) =>
-        pathName.startsWith(`/${locale}${subItem.href}`)
+        pathName.startsWith(`/${subItem.href}`)
       );
-    // ||
-    // (item.href &&
-    //   item.href !== "/app" &&
-    //   pathName.includes(`/${locale}${item.href}`)) ||
-    // (item.href === "/app" && pathName == `/${locale}`);
 
     const isExpanded = expandedItem === item.name;
 
@@ -94,7 +88,7 @@ const DashboardSidebar: React.FC<Props> = ({
                 <div>
                   {item.subItems.map((subItem, index) => {
                     const isSubItemActive = pathName.includes(
-                      `/${locale}${subItem.href}`
+                      `/${subItem.href}`
                     );
                     const isLastSubItem = index === item.subItems!.length - 1;
                     return (

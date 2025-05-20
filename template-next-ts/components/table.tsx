@@ -99,6 +99,7 @@ export function Table<T>({
 
     return (
         <div className="w-full overflow-hidden">
+            <div className='text-xl font-semibold text-center py-5 text-primary'>{title}</div>
             <div className="flex justify-between items-center mb-4">
                 <FormSearch value={searchQuery} handleChange={(e) => setSearchQuery(e.target.value)} />
                 <div className="flex items-center space-x-2">

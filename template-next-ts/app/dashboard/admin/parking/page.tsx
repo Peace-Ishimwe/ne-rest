@@ -1,12 +1,13 @@
-"use client"
-import dayjs from 'dayjs';
-import { Icon } from '@iconify/react';
-import { Table } from '@/components/table';
-import React, { useMemo, useState } from 'react';
-import { useGetAllParkings } from '@/hooks/use-parking';
-import AddParkingModal from '@/components/parking/add-parking-modal';
-import EditParkingModal from '@/components/parking/edit-parking-modal';
-import DeleteParkingDialog from '@/components/parking/delete-parking-dialog';
+"use client";
+import dayjs from "dayjs";
+import { Icon } from "@iconify/react";
+import { Table } from "@/components/table";
+import React, { useMemo, useState } from "react";
+import { useGetAllParkings } from "@/hooks/use-parking";
+import AddParkingModal from "@/components/parking/add-parking-modal";
+import EditParkingModal from "@/components/parking/edit-parking-modal";
+import DeleteParkingDialog from "@/components/parking/delete-parking-dialog";
+import LoadingScreen from "@/components/loading-screen";
 
 const ParkingTable: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -39,31 +40,43 @@ const ParkingTable: React.FC = () => {
 
     return parkingsData.data.map((parking: Parking) => ({
       ...parking,
-      updatedAtDisplay: parking.updatedAt ? dayjs(parking.updatedAt).format('MMM D, YYYY') : '',
+      updatedAtDisplay: parking.updatedAt
+        ? dayjs(parking.updatedAt).format("MMM D, YYYY")
+        : "",
     }));
   }, [parkingsData]);
 
   const columns = [
-    { key: 'parkingName', label: 'Parking Name' },
-    { key: 'numberOfAvailableSpaces', label: 'Available Spaces' },
-    { key: 'chargingFeesPerHour', label: 'Fees per Hour' },
-    { key: 'updatedAtDisplay', label: 'Updated At' },
-    { key: 'actions', label: 'Actions' },
+    { key: "parkingName", label: "Parking Name" },
+    { key: "numberOfAvailableSpaces", label: "Available Spaces" },
+    { key: "chargingFeesPerHour", label: "Fees per Hour" },
+    { key: "updatedAtDisplay", label: "Updated At" },
+    { key: "actions", label: "Actions" },
   ];
 
   const tableData = formattedParkings.map((parking: any) => ({
     ...parking,
     actions: (
       <div className="flex space-x-2">
-        <button className="text-textIcon" onClick={() => openEditModal(parking)}>
+        <button
+          className="text-textIcon"
+          onClick={() => openEditModal(parking)}
+        >
           <Icon icon="ic:baseline-edit" fontSize={18} />
         </button>
-        <button className="text-textIcon" onClick={() => openDeleteDialog(parking)}>
+        <button
+          className="text-textIcon"
+          onClick={() => openDeleteDialog(parking)}
+        >
           <Icon icon="ic:baseline-delete" fontSize={18} />
         </button>
       </div>
     ),
   }));
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div>
