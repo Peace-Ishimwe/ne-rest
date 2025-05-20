@@ -11,7 +11,7 @@ export const createParking = async (req: Request, res: Response) => {
         // @ts-ignore - from auth middleware
         const { id: userId, role } = req.user;
 
-        if (role !== 'ADMIN') {
+        if (role !== 'Admin') {
             return ApiResponse.error(res, 403, 'Only admins can create parking lots');
         }
 
@@ -79,7 +79,7 @@ export const updateParking = async (req: Request, res: Response) => {
         // @ts-ignore
         const { id: userId, role } = req.user;
 
-        if (role !== 'ADMIN') {
+        if (role !== 'Admin') {
             return ApiResponse.error(res, 403, 'Only admins can update parking lots');
         }
 
@@ -119,7 +119,7 @@ export const deleteParking = async (req: Request, res: Response) => {
         // @ts-ignore
         const { id: userId, role } = req.user;
 
-        if (role !== 'ADMIN') {
+        if (role !== 'Admin') {
             return ApiResponse.error(res, 403, 'Only admins can delete parking lots');
         }
 

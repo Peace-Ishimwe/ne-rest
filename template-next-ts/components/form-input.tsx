@@ -49,6 +49,17 @@ const FormInput: React.FC<FormInputProps> = ({
                 type={type === "password" && showPassword ? "text" : type}
                 step={step}
                 {...field}
+                value={field.value ?? ''}
+                onChange={(e) => {
+                  if (type === "number") {
+                    const value = e.target.value;
+                    // Convert to number: integer for whole numbers, float for decimals
+                    const numValue = step && step.includes('.') ? parseFloat(value) : parseInt(value, 10);
+                    field.onChange(value === '' ? '' : isNaN(numValue) ? field.value : numValue);
+                  } else {
+                    field.onChange(e.target.value);
+                  }
+                }}
                 className="border-gray-300 rounded-md"
               />
               {type === "password" && (
