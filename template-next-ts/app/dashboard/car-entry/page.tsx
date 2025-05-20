@@ -3,7 +3,11 @@ import dayjs from "dayjs";
 import { Icon } from "@iconify/react";
 import { Table } from "@/components/table";
 import React, { useMemo, useState } from "react";
-import { useGetAllCarEntries, useGetTicketForCarEntry, useUpdateCarExit } from "@/hooks/use-car-entry";
+import {
+  useGetAllCarEntries,
+  useGetTicketForCarEntry,
+  useUpdateCarExit,
+} from "@/hooks/use-car-entry";
 import AddCarEntryModal from "@/components/car-entry/add-car-entry-modal";
 import LoadingScreen from "@/components/loading-screen";
 import { toast } from "sonner";
@@ -15,7 +19,14 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ClipLoader } from "react-spinners";
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 import { CarEntryService } from "@/services/car-entry.service";
 import { UtilsService } from "@/services/utils.service";
 
@@ -120,20 +131,31 @@ const TicketPDF: React.FC<{ ticket: Ticket }> = ({ ticket }) => (
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Entry Time</Text>
-        <Text style={styles.value}>{new Date(ticket.entryDateTime).toLocaleString()}</Text>
+        <Text style={styles.value}>
+          {new Date(ticket.entryDateTime).toLocaleString()}
+        </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Charging Rate</Text>
-        <Text style={styles.value}>${ticket.chargingFeesPerHour ?? "1000"}/hour</Text>
+        <Text style={styles.value}>
+          ${ticket.chargingFeesPerHour ?? "1000"}/hour
+        </Text>
       </View>
       <View style={styles.footer}>
-        <Text>Parking Management System | Contact: support@parkingmanagement.com | (123) 456-7890</Text>
+        <Text>
+          Parking Management System | Contact: support@parkingmanagement.com |
+          (123) 456-7890
+        </Text>
       </View>
     </Page>
   </Document>
 );
 
-const BillPDF: React.FC<{ carEntry: CarEntry; ticket: Ticket; durationHours: number }> = ({ carEntry, ticket, durationHours }) => (
+const BillPDF: React.FC<{
+  carEntry: CarEntry;
+  ticket: Ticket;
+  durationHours: number;
+}> = ({ carEntry, ticket, durationHours }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
@@ -157,11 +179,17 @@ const BillPDF: React.FC<{ carEntry: CarEntry; ticket: Ticket; durationHours: num
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Entry Time</Text>
-        <Text style={styles.value}>{new Date(carEntry.entryDateTime).toLocaleString()}</Text>
+        <Text style={styles.value}>
+          {new Date(carEntry.entryDateTime).toLocaleString()}
+        </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Exit Time</Text>
-        <Text style={styles.value}>{carEntry.exitDateTime ? new Date(carEntry.exitDateTime).toLocaleString() : "N/A"}</Text>
+        <Text style={styles.value}>
+          {carEntry.exitDateTime
+            ? new Date(carEntry.exitDateTime).toLocaleString()
+            : "N/A"}
+        </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Parking Duration</Text>
@@ -169,30 +197,45 @@ const BillPDF: React.FC<{ carEntry: CarEntry; ticket: Ticket; durationHours: num
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Charging Rate</Text>
-        <Text style={styles.value}>${ticket.chargingFeesPerHour ?? "N/A"}/hour</Text>
+        <Text style={styles.value}>
+          ${ticket.chargingFeesPerHour ?? "N/A"}/hour
+        </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Total Amount Charged</Text>
         <Text style={styles.value}>${carEntry.chargedAmount.toFixed(2)}</Text>
       </View>
       <View style={styles.footer}>
-        <Text>Parking Management System | Contact: support@parkingmanagement.com | (123) 456-7890</Text>
+        <Text>
+          Parking Management System | Contact: support@parkingmanagement.com |
+          (123) 456-7890
+        </Text>
       </View>
     </Page>
   </Document>
 );
 
 const CarEntryTable: React.FC = () => {
-  const [selectedCarEntryId, setSelectedCarEntryId] = useState<string | null>(null);
+  const [selectedCarEntryId, setSelectedCarEntryId] = useState<string | null>(
+    null
+  );
   const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
   const [billDialogOpen, setBillDialogOpen] = useState(false);
-  const [billData, setBillData] = useState<{ carEntry: CarEntry; ticket: Ticket; durationHours: number } | null>(null);
+  const [billData, setBillData] = useState<{
+    carEntry: CarEntry;
+    ticket: Ticket;
+    durationHours: number;
+  } | null>(null);
   const { data: carEntriesData, isLoading } = useGetAllCarEntries();
   const updateCarExitMutation = useUpdateCarExit();
-  const { data: ticketData, isLoading: isTicketLoading, error: ticketError } = useGetTicketForCarEntry(selectedCarEntryId || "");
+  const {
+    data: ticketData,
+    isLoading: isTicketLoading,
+    error: ticketError,
+  } = useGetTicketForCarEntry(selectedCarEntryId || "");
 
-  const utils = new UtilsService()
-  const carEntryService = new CarEntryService(utils)
+  const utils = new UtilsService();
+  const carEntryService = new CarEntryService(utils);
 
   const handleExit = async (carEntry: CarEntry) => {
     if (carEntry.exitDateTime) {
@@ -201,10 +244,15 @@ const CarEntryTable: React.FC = () => {
     }
     try {
       const exitDateTime = new Date().toISOString();
-      const durationHours = (new Date(exitDateTime).getTime() - new Date(carEntry.entryDateTime).getTime()) / (1000 * 60 * 60);
-      
+      const durationHours =
+        (new Date(exitDateTime).getTime() -
+          new Date(carEntry.entryDateTime).getTime()) /
+        (1000 * 60 * 60);
+
       // Fetch ticket to include in bill
-      const ticketResponse = await carEntryService.getTicketForCarEntry({ carEntryId: carEntry.id });
+      const ticketResponse = await carEntryService.getTicketForCarEntry({
+        carEntryId: carEntry.id,
+      });
       const ticket = ticketResponse.data?.[0];
       if (!ticket) {
         throw new Error("No ticket found for this car entry");
@@ -218,8 +266,15 @@ const CarEntryTable: React.FC = () => {
 
       // Prepare bill data
       setBillData({
-        carEntry: { ...carEntry, exitDateTime, chargedAmount: response.data.carEntry.chargedAmount },
-        ticket: { ...ticket, chargingFeesPerHour: ticket.parking?.chargingFeesPerHour },
+        carEntry: {
+          ...carEntry,
+          exitDateTime,
+          chargedAmount: response.data.carEntry.chargedAmount,
+        },
+        ticket: {
+          ...ticket,
+          chargingFeesPerHour: ticket.parking?.chargingFeesPerHour,
+        },
         durationHours,
       });
       setBillDialogOpen(true);
@@ -233,6 +288,39 @@ const CarEntryTable: React.FC = () => {
   const handleViewTicket = async (carEntryId: string) => {
     setSelectedCarEntryId(carEntryId);
     setTicketDialogOpen(true);
+  };
+
+  // New function to handle viewing the bill for already exited cars
+  const handleViewBill = async (carEntry: CarEntry) => {
+    try {
+      const ticketResponse = await carEntryService.getTicketForCarEntry({
+        carEntryId: carEntry.id,
+      });
+      const ticket = ticketResponse.data?.[0];
+
+      if (!ticket || !carEntry.exitDateTime) {
+        toast.error("Bill data not available or car has not exited.");
+        return;
+      }
+
+      const durationHours =
+        (new Date(carEntry.exitDateTime).getTime() -
+          new Date(carEntry.entryDateTime).getTime()) /
+        (1000 * 60 * 60);
+
+      setBillData({
+        carEntry: carEntry,
+        ticket: {
+          ...ticket,
+          chargingFeesPerHour: ticket.parking?.chargingFeesPerHour,
+        },
+        durationHours,
+      });
+      setBillDialogOpen(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load bill details.");
+    }
   };
 
   const formattedCarEntries = useMemo(() => {
@@ -263,13 +351,15 @@ const CarEntryTable: React.FC = () => {
     ...carEntry,
     actions: (
       <div className="flex space-x-2">
-        <button
-          className="text-textIcon"
-          onClick={() => handleExit(carEntry)}
-          disabled={carEntry.exitDateTime || updateCarExitMutation.isPending}
-        >
-          <Icon icon="ic:baseline-exit-to-app" fontSize={18} />
-        </button>
+        {!carEntry.exitDateTime && (
+          <button
+            className="text-textIcon"
+            onClick={() => handleExit(carEntry)}
+            disabled={carEntry.exitDateTime || updateCarExitMutation.isPending}
+          >
+            <Icon icon="ic:baseline-exit-to-app" fontSize={18} />
+          </button>
+        )}
         <button
           className="text-textIcon"
           onClick={() => handleViewTicket(carEntry.id)}
@@ -277,6 +367,14 @@ const CarEntryTable: React.FC = () => {
         >
           <Icon icon="ic:baseline-receipt" fontSize={18} />
         </button>
+        {carEntry.exitDateTime && ( // Conditionally render "View Bill" button
+          <button
+            className="text-textIcon"
+            onClick={() => handleViewBill(carEntry)}
+          >
+            <Icon icon="mdi:file-document-outline" fontSize={18} />
+          </button>
+        )}
       </div>
     ),
   }));
@@ -307,7 +405,9 @@ const CarEntryTable: React.FC = () => {
               <ClipLoader size={20} color="#000" />
             </div>
           ) : ticketError ? (
-            <p className="text-red-600">Failed to load ticket: {ticketError.message}</p>
+            <p className="text-red-600">
+              Failed to load ticket: {ticketError.message}
+            </p>
           ) : ticketData?.data?.[0] ? (
             <div className="space-y-4">
               <div>
@@ -315,12 +415,18 @@ const CarEntryTable: React.FC = () => {
                 <p className="text-sm text-gray-900">{ticketData.data[0].id}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-700">Plate Number</p>
-                <p className="text-sm text-gray-900">{ticketData.data[0].plateNumber}</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Plate Number
+                </p>
+                <p className="text-sm text-gray-900">
+                  {ticketData.data[0].plateNumber}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Parking Lot</p>
-                <p className="text-sm text-gray-900">{ticketData.data[0].parkingName}</p>
+                <p className="text-sm text-gray-900">
+                  {ticketData.data[0].parkingName}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Entry Time</p>
@@ -343,7 +449,9 @@ const CarEntryTable: React.FC = () => {
                   fileName={`ticket-${ticketData.data[0].id}.pdf`}
                   className="main-dark-button w-full text-center"
                 >
-                  {({ loading }) => (loading ? "Generating PDF..." : "Download Ticket PDF")}
+                  {({ loading }) =>
+                    loading ? "Generating PDF..." : "Download Ticket PDF"
+                  }
                 </PDFDownloadLink>
               </div>
             </div>
@@ -365,12 +473,18 @@ const CarEntryTable: React.FC = () => {
                 <p className="text-sm text-gray-900">{billData.ticket.id}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-700">Plate Number</p>
-                <p className="text-sm text-gray-900">{billData.carEntry.plateNumber}</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Plate Number
+                </p>
+                <p className="text-sm text-gray-900">
+                  {billData.carEntry.plateNumber}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Parking Lot</p>
-                <p className="text-sm text-gray-900">{billData.carEntry.parkingName}</p>
+                <p className="text-sm text-gray-900">
+                  {billData.carEntry.parkingName}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Entry Time</p>
@@ -385,12 +499,20 @@ const CarEntryTable: React.FC = () => {
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-700">Parking Duration</p>
-                <p className="text-sm text-gray-900">{billData.durationHours.toFixed(2)} hours</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Parking Duration
+                </p>
+                <p className="text-sm text-gray-900">
+                  {billData.durationHours.toFixed(2)} hours
+                </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-700">Total Amount Charged</p>
-                <p className="text-sm text-gray-900">${billData.carEntry.chargedAmount.toFixed(2)}</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Total Amount Charged
+                </p>
+                <p className="text-sm text-gray-900">
+                  ${billData.carEntry.chargedAmount.toFixed(2)}
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Button
@@ -403,11 +525,19 @@ const CarEntryTable: React.FC = () => {
                   Close
                 </Button>
                 <PDFDownloadLink
-                  document={<BillPDF carEntry={billData.carEntry} ticket={billData.ticket} durationHours={billData.durationHours} />}
+                  document={
+                    <BillPDF
+                      carEntry={billData.carEntry}
+                      ticket={billData.ticket}
+                      durationHours={billData.durationHours}
+                    />
+                  }
                   fileName={`bill-${billData.ticket.id}.pdf`}
                   className="main-dark-button w-full text-center"
                 >
-                  {({ loading }) => (loading ? "Generating PDF..." : "Download Bill PDF")}
+                  {({ loading }) =>
+                    loading ? "Generating PDF..." : "Download Bill PDF"
+                  }
                 </PDFDownloadLink>
               </div>
             </div>
