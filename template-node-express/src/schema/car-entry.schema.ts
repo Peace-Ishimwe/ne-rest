@@ -3,35 +3,31 @@ import { z } from "zod";
 export const createCarEntrySchema = z.object({
   plateNumber: z
     .string()
-    .min(3, "Plate number must be at least 3 characters")
-    .max(20, "Plate number must be less than 20 characters")
-    .regex(/^[A-Z0-9-]+$/, "Plate number must contain only uppercase letters, numbers, or hyphens"),
+    .min(1, "Plate number is required")
+    .max(20, "Plate number must be at most 20 characters"),
   parkingCode: z
     .string()
-    .uuid("Parking code must be a valid UUID"),
+    .uuid("Invalid parking ID format"),
 });
 
 export const updateCarEntrySchema = z.object({
-  exitDateTime: z.string().datetime().optional(),
-  chargedAmount: z.number().min(0, "Charged amount cannot be negative").optional(),
+  exitDateTime: z
+    .string()
+    .datetime({ message: "Invalid exit date time format" })
+    .optional(),
+  chargedAmount: z
+    .number()
+    .nonnegative("Charged amount must be non-negative")
+    .optional(),
 });
 
-export const validateCreateCarEntryInput = (data: unknown) => {
-  const result = createCarEntrySchema.safeParse(data);
-  if (!result.success) {
-    throw new Error(
-      result.error.errors.map((err) => err.message).join(", ")
-    );
-  }
-  return result.data;
+export type CreateCarEntryInput = z.infer<typeof createCarEntrySchema>;
+export type UpdateCarEntryInput = z.infer<typeof updateCarEntrySchema>;
+
+export const validateCreateCarEntryInput = (data: unknown): CreateCarEntryInput => {
+  return createCarEntrySchema.parse(data);
 };
 
-export const validateUpdateCarEntryInput = (data: unknown) => {
-  const result = updateCarEntrySchema.safeParse(data);
-  if (!result.success) {
-    throw new Error(
-      result.error.errors.map((err) => err.message).join(", ")
-    );
-  }
-  return result.data;
+export const validateUpdateCarEntryInput = (data: unknown): UpdateCarEntryInput => {
+  return updateCarEntrySchema.parse(data);
 };

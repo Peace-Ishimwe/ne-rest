@@ -35,6 +35,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 
 type Parking = {
   id: string;
@@ -50,14 +58,70 @@ type Ticket = {
   plateNumber: string;
   parkingName: string;
   entryDateTime: string;
+  chargingFeesPerHour?: number;
 };
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+    fontSize: 12,
+  },
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  section: {
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  value: {
+    fontSize: 12,
+  },
+});
+
+const TicketPDF: React.FC<{ ticket: Ticket }> = ({ ticket }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.title}>Parking Ticket</Text>
+      <View style={styles.section}>
+        <Text style={styles.label}>Ticket ID</Text>
+        <Text style={styles.value}>{ticket.id}</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>Plate Number</Text>
+        <Text style={styles.value}>{ticket.plateNumber}</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>Parking Lot</Text>
+        <Text style={styles.value}>{ticket.parkingName}</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>Entry Time</Text>
+        <Text style={styles.value}>
+          {new Date(ticket.entryDateTime).toLocaleString()}
+        </Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>Charging Rate</Text>
+        <Text style={styles.value}>
+          ${ticket.chargingFeesPerHour ?? "N/A"}/hour
+        </Text>
+      </View>
+    </Page>
+  </Document>
+);
 
 const AddCarEntryModal: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [comboOpen, setComboOpen] = React.useState(false);
   const [ticket, setTicket] = React.useState<Ticket | null>(null);
   const createCarEntryMutation = useCreateCarEntry();
-  const { data: parkingsData, isLoading: isParkingsLoading } = useGetAllParkings();
+  const { data: parkingsData, isLoading: isParkingsLoading } =
+    useGetAllParkings();
 
   const form = useForm<CreateCarEntryFormData>({
     resolver: zodResolver(createCarEntrySchema),
@@ -79,7 +143,12 @@ const AddCarEntryModal: React.FC = () => {
   const onSubmit = async (data: CreateCarEntryFormData) => {
     try {
       const response = await createCarEntryMutation.mutateAsync(data);
-      setTicket(response.ticket);
+      setTicket({
+        ...response.data.ticket,
+        chargingFeesPerHour: parkingsData?.data.find(
+          (p: any) => p.id === data.parkingCode
+        )?.chargingFeesPerHour,
+      });
       toast.success("Car entry and ticket created successfully");
     } catch (error) {
       toast.error("Car entry creation failed");
@@ -94,7 +163,9 @@ const AddCarEntryModal: React.FC = () => {
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
         <DialogContent className="sm:rounded">
           <DialogHeader>
-            <DialogTitle>{ticket ? "Ticket Details" : "Add New Car Entry"}</DialogTitle>
+            <DialogTitle>
+              {ticket ? "Ticket Details" : "Add New Car Entry"}
+            </DialogTitle>
           </DialogHeader>
           {ticket ? (
             <div className="space-y-4">
@@ -103,7 +174,9 @@ const AddCarEntryModal: React.FC = () => {
                 <p className="text-sm text-gray-900">{ticket.id}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-700">Plate Number</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Plate Number
+                </p>
                 <p className="text-sm text-gray-900">{ticket.plateNumber}</p>
               </div>
               <div>
@@ -117,20 +190,37 @@ const AddCarEntryModal: React.FC = () => {
                 </p>
               </div>
               <div className="flex space-x-2">
-                <Button onClick={closeAddModal} className="main-dark-button w-full">
+                <Button
+                  onClick={closeAddModal}
+                  className="main-dark-button w-fit"
+                >
                   Close
                 </Button>
                 <Button
                   onClick={() => setTicket(null)}
-                  className="main-dark-button w-full"
+                  className="main-dark-button w-fit"
                 >
                   Create Another
                 </Button>
+                {ticket && (
+                  <PDFDownloadLink
+                    document={<TicketPDF ticket={ticket} />}
+                    fileName={`ticket-${ticket.id}.pdf`}
+                    className="main-dark-button w-full text-center"
+                  >
+                    {({ loading }) =>
+                      loading ? "Generating PDF..." : "Download PDF"
+                    }
+                  </PDFDownloadLink>
+                )}
               </div>
             </div>
           ) : (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 <FormInput
                   control={form.control}
                   name="plateNumber"
@@ -211,7 +301,9 @@ const AddCarEntryModal: React.FC = () => {
                 </div>
                 <Button
                   type="submit"
-                  disabled={createCarEntryMutation.isPending || isParkingsLoading}
+                  disabled={
+                    createCarEntryMutation.isPending || isParkingsLoading
+                  }
                   className="main-dark-button w-full"
                 >
                   {createCarEntryMutation.isPending ? (

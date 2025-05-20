@@ -20,6 +20,7 @@ type CarEntry = {
   id: string;
   plateNumber: string;
   parkingId: string;
+  parkingName: string;
   entryDateTime: string;
   exitDateTime: string | null;
   chargedAmount: number;
@@ -49,7 +50,7 @@ const CarEntryTable: React.FC = () => {
     try {
       await updateCarExitMutation.mutateAsync({
         id: carEntry.id,
-        data: { exitDateTime: new Date().toISOString(), chargedAmount: 0 },
+        data: { exitDateTime: new Date().toISOString() },
       });
       toast.success("Car exit updated successfully");
     } catch (error) {
@@ -73,15 +74,16 @@ const CarEntryTable: React.FC = () => {
       exitDateTimeDisplay: carEntry.exitDateTime
         ? dayjs(carEntry.exitDateTime).format("MMM D, YYYY HH:mm")
         : "",
+      chargedAmountDisplay: carEntry.chargedAmount.toFixed(2),
     }));
   }, [carEntriesData]);
 
   const columns = [
     { key: "plateNumber", label: "Plate Number" },
-    { key: "parkingId", label: "Parking ID" },
+    { key: "parkingName", label: "Parking Lot" },
     { key: "entryDateTimeDisplay", label: "Entry Time" },
     { key: "exitDateTimeDisplay", label: "Exit Time" },
-    { key: "chargedAmount", label: "Charged Amount" },
+    { key: "chargedAmountDisplay", label: "Charged Amount" },
     { key: "actions", label: "Actions" },
   ];
 

@@ -147,12 +147,16 @@ export const updateCarExit = async (req: Request, res: Response) => {
       return ApiResponse.error(res, 400, "Car has already exited");
     }
 
+    const exitDateTime = validated.exitDateTime ? new Date(validated.exitDateTime) : new Date();
+    const durationHours = (exitDateTime.getTime() - new Date(carEntry.entryDateTime).getTime()) / (1000 * 60 * 60);
+    const chargedAmount = validated.chargedAmount ?? (durationHours * carEntry.parking.chargingFeesPerHour);
+
     const updatedCarEntry = await prisma.$transaction(async (tx) => {
       const entry = await tx.carEntry.update({
         where: { id },
         data: {
-          exitDateTime: validated.exitDateTime ? new Date(validated.exitDateTime) : new Date(),
-          chargedAmount: validated.chargedAmount ?? carEntry.chargedAmount,
+          exitDateTime,
+          chargedAmount,
         },
       });
 
@@ -173,7 +177,6 @@ export const updateCarExit = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getAllCarEntries = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
@@ -193,6 +196,7 @@ export const getAllCarEntries = async (req: Request, res: Response) => {
         chargedAmount: true,
         createdAt: true,
         updatedAt: true,
+        parking: { select: { parkingName: true } },
       },
     });
 
