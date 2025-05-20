@@ -97,9 +97,9 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row">
+    <main className="min-h-screen flex flex-col md:flex-row bg-white">
       {/* Left Section: Form */}
-      <section className="flex-1 flex items-center justify-center p-6 md:p-12 bg-white">
+      <section className="flex-1 flex items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-md space-y-6">
           <div>
             <h2 className="text-3xl font-bold text-gray-800">

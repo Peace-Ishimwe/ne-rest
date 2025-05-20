@@ -34,9 +34,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row-reverse">
+    <main className="min-h-screen flex flex-col md:flex-row-reverse bg-white">
       {/* Left Section: Form (Scrollable) */}
-      <section className="flex-1 flex items-center justify-center p-6 md:p-12 bg-white overflow-y-auto h-full">
+      <section className="flex-1 flex items-center justify-center p-6 md:p-12 overflow-y-auto h-full">
         <div className="w-full max-w-md space-y-6">
           <div>
             <h2 className="text-3xl font-bold text-gray-800">Join PMS! ✨</h2>
