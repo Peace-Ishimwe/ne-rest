@@ -40,7 +40,7 @@
   --color-primary: #303030;
   --color-subprimary: #FAF7F3;
   --color-textIcon: #494C52;
-  --color-darkBlue: #012473;
+  --color-darkBlue: #5E5E5E;
   --color-textHeading: #000B22;
   --color-background: #E7F1EE;
   --color-textmain: #494C52;
@@ -228,7 +228,7 @@
 }
 
 .main-dark-button {
-  @apply px-6 justify-center h-[38px] space-x-2 bg-[#012473] text-white flex items-center rounded hover:!bg-primary/90 transition-all duration-300 cursor-pointer;
+  @apply px-6 justify-center h-[38px] space-x-2 bg-primary/90 text-white flex items-center rounded hover:!bg-primary/90 transition-all duration-300 cursor-pointer;
 }
 
 .main-select {
