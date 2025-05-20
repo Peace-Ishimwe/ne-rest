@@ -50,7 +50,7 @@ export const getAllParkings = async (req: Request, res: Response) => {
         // @ts-ignore
         const { role } = req.user;
 
-        if (role !== 'ADMIN' && role !== 'PARKING_ATTENDANT') {
+        if (role !== 'Admin' && role !== 'User') {
             return ApiResponse.error(res, 403, 'Only admins and parking attendants can view parking lots');
         }
 

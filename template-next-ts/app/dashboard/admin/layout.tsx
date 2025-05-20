@@ -11,11 +11,11 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (user && user.role !== "Admin") {
+    if (user.email !== "" && user.role !== "Admin") {
       toast.error("You are not authorized to access this resource.");
-      router.replace("/");
+      router.replace("/dashboard");
     }
-  }, []);
+  }, [user]);
 
   if (user?.role !== "Admin") {
     return <LoadingScreen />;
