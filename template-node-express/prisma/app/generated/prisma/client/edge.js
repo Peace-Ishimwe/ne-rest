@@ -194,7 +194,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\peace\\Desktop\\REST\\ne-rest\\template-node-express\\prisma\\app\\generated\\prisma\\client",
+      "value": "/Users/peaceishimwem/Desktop/Leer/ne_practical/rest/template-node-express/prisma/app/generated/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -203,12 +203,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\peace\\Desktop\\REST\\ne-rest\\template-node-express\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/peaceishimwem/Desktop/Leer/ne_practical/rest/template-node-express/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -222,12 +222,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:@localhost:5432/ne_rest_db"
       }
     }
   },

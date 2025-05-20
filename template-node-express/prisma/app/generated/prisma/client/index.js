@@ -195,7 +195,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\peace\\Desktop\\REST\\ne-rest\\template-node-express\\prisma\\app\\generated\\prisma\\client",
+      "value": "/Users/peaceishimwem/Desktop/Leer/ne_practical/rest/template-node-express/prisma/app/generated/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -204,12 +204,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\peace\\Desktop\\REST\\ne-rest\\template-node-express\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/peaceishimwem/Desktop/Leer/ne_practical/rest/template-node-express/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -223,12 +223,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:@localhost:5432/ne_rest_db"
       }
     }
   },
@@ -272,8 +271,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "prisma/app/generated/prisma/client/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "prisma/app/generated/prisma/client/libquery_engine-darwin-arm64.dylib.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/app/generated/prisma/client/schema.prisma")

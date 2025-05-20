@@ -53,7 +53,7 @@ export const makeMiddleware = (): Middleware => {
       }
     },
     admin: (req: AuthRequest, res: Response, next: NextFunction) => {
-      if (req.user && (req.user.role === 'Admin' || req.user.role === 'SuperAdmin')) {
+      if (req.user && (req.user.role === 'Admin')) {
         next();
       } else {
         return next(new HttpError(403, 'Not authorized as admin'));

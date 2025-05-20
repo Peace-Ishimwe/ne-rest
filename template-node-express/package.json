@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --runInBand",
-    "db:migrate": "npx prisma migrate dev --name init",
     "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev --name init",
     "db:studio": "npx prisma studio",
     "seed": "ts-node prisma/seed.ts"
   },

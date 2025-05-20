@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "./app/generated/prisma/client";
 import SeedAdmin from "./seed/admin.seed";
 import SeedAttendant from "./seed/attendant.seed";
 
