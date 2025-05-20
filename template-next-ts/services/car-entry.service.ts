@@ -30,9 +30,37 @@ export class CarEntryService {
     );
   }
 
- getTicketForCarEntry({ carEntryId }: { carEntryId: string }) {
-  return this.utils.handleApiRequest(() =>
-    authorizedAPI.get(`/car-entry/ticket?carEntryId=${carEntryId}`)
-  );
-}
+  getTicketForCarEntry({ carEntryId }: { carEntryId: string }) {
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.get(`/car-entry/ticket?carEntryId=${carEntryId}`)
+    );
+  }
+
+  async getOutgoingCars({
+    startDateTime,
+    endDateTime,
+  }: {
+    startDateTime: string;
+    endDateTime: string;
+  }) {
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.get(
+        `/car-entry/outgoing?startDateTime=${startDateTime}&endDateTime=${endDateTime}`
+      )
+    );
+  }
+
+  async getEnteredCars({
+    startDateTime,
+    endDateTime,
+  }: {
+    startDateTime: string;
+    endDateTime: string;
+  }) {
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.get(
+        `/car-entry/entered?startDateTime=${startDateTime}&endDateTime=${endDateTime}`
+      )
+    );
+  }
 }

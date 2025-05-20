@@ -77,3 +77,26 @@ export const useGetTicketForCarEntry = (carEntryId: string) => {
     queryFn: () => carEntryService.getTicketForCarEntry({ carEntryId }),
   });
 };
+
+
+export const useGetOutgoingCars = (startDateTime: string, endDateTime: string) => {
+  return useQuery({
+    queryKey: ["outgoingCars", startDateTime, endDateTime],
+    queryFn: async () => {
+      const response = await carEntryService.getOutgoingCars({ startDateTime, endDateTime });
+      return response;
+    },
+    enabled: !!startDateTime && !!endDateTime,
+  });
+};
+
+export const useGetEnteredCars = (startDateTime: string, endDateTime: string) => {
+  return useQuery({
+    queryKey: ["enteredCars", startDateTime, endDateTime],
+    queryFn: async () => {
+      const response = await carEntryService.getEnteredCars({ startDateTime, endDateTime });
+      return response;
+    },
+    enabled: !!startDateTime && !!endDateTime,
+  });
+};
