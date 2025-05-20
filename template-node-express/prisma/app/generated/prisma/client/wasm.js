@@ -163,6 +163,17 @@ exports.Prisma.CarEntryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  carEntryId: 'carEntryId',
+  parkingId: 'parkingId',
+  plateNumber: 'plateNumber',
+  parkingName: 'parkingName',
+  entryDateTime: 'entryDateTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -197,7 +208,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Code: 'Code',
   Parking: 'Parking',
-  CarEntry: 'CarEntry'
+  CarEntry: 'CarEntry',
+  Ticket: 'Ticket'
 };
 
 /**

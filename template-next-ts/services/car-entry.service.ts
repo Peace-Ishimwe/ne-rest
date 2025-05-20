@@ -1,19 +1,38 @@
 import { authorizedAPI } from "@/config/axios.config";
 import { UtilsService } from "./utils.service";
-import { CreateCarEntryFormData, UpdateCarEntryFormData } from "@/lib/schema/car-entry.schema";
+import {
+  CreateCarEntryFormData,
+  UpdateCarEntryFormData,
+} from "@/lib/schema/car-entry.schema";
 
 export class CarEntryService {
   constructor(private readonly utils: UtilsService) {}
 
   createCarEntry(data: CreateCarEntryFormData) {
-    return this.utils.handleApiRequest(() => authorizedAPI.post("/car-entry", data));
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.post("/car-entry", data)
+    );
   }
 
   updateCarExit({ id, data }: { id: string; data: UpdateCarEntryFormData }) {
-    return this.utils.handleApiRequest(() => authorizedAPI.put(`/car-entry/${id}/exit`, data));
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.put(`/car-entry/${id}/exit`, data)
+    );
   }
 
   getAllCarEntries() {
     return this.utils.handleApiRequest(() => authorizedAPI.get("/car-entry"));
   }
+
+  getTicket({ id }: { id: string }) {
+    return this.utils.handleApiRequest(() =>
+      authorizedAPI.get(`/car-entry/ticket/${id}`)
+    );
+  }
+
+ getTicketForCarEntry({ carEntryId }: { carEntryId: string }) {
+  return this.utils.handleApiRequest(() =>
+    authorizedAPI.get(`/car-entry/ticket?carEntryId=${carEntryId}`)
+  );
+}
 }

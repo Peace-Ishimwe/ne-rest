@@ -9,3 +9,10 @@ type CarEntry = {
   createdAt: string;
   updatedAt: string;
 };
+
+type Ticket = {
+  id: string;
+  plateNumber: string;
+  parkingName: string;
+  entryDateTime: string;
+};
