@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes";
 import { profileRouter } from "./profile.routes";
-import vehicleRouter from "./vehicle.routes";
+import { parkingRouter } from "./parking.routes";
 
 const router = Router()
 
 router.use('/auth', authRouter)
 router.use('/profile', profileRouter)
-router.use('/vehicle', vehicleRouter)
+router.use('/parking', parkingRouter)
 
 export default router

@@ -1,6 +1,6 @@
 import { authorizedAPI, unauthorizedAPI } from "@/config/axios.config";
 import { UtilsService } from "./utils.service";
-import { ChangePasswordFormData, ForgotPasswordFormData, LoginFormData, RegisterFormData, ResetPasswordFormData, VerifyEmailFormData } from "@/lib/schemas/auth.schemas";
+import { ChangePasswordFormData, ForgotPasswordFormData, LoginFormData, RegisterFormData, ResetPasswordFormData, VerifyEmailFormData } from "@/lib/schema/auth.schema";
 
 export class AuthService {
     constructor(

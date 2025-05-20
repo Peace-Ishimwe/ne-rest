@@ -12,7 +12,7 @@ import {
     RegisterFormData,
     ResetPasswordFormData,
     VerifyEmailFormData
-} from "@/lib/schemas/auth.schemas";
+} from "@/lib/schema/auth.schema";
 
 const authService = new AuthService(new UtilsService());
 const utils = new UtilsService();

@@ -9,7 +9,7 @@ import { useRegister } from "@/hooks/use-auth";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, RegisterFormData } from "@/lib/schemas/auth.schemas";
+import { registerSchema, RegisterFormData } from "@/lib/schema/auth.schema";
 
 export default function RegisterPage() {
   const form = useForm<RegisterFormData>({

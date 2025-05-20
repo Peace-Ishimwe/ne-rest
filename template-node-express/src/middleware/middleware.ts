@@ -17,7 +17,6 @@ export interface Middleware {
   exampleLogger(req: Request, res: Response, next: NextFunction): void;
   protect(req: AuthRequest, res: Response, next: NextFunction): void;
   admin(req: AuthRequest, res: Response, next: NextFunction): void;
-  superAdmin(req: AuthRequest, res: Response, next: NextFunction): void;
   routeNotFound(req: Request, res: Response, next: NextFunction): void;
   errorHandler(err: Error, req: Request, res: Response<ErrorBody>, next: NextFunction): Response;
 }
@@ -58,13 +57,6 @@ export const makeMiddleware = (): Middleware => {
         next();
       } else {
         return next(new HttpError(403, 'Not authorized as admin'));
-      }
-    },
-    superAdmin: (req: AuthRequest, res: Response, next: NextFunction) => {
-      if (req.user && req.user.role === 'SuperAdmin') {
-        next();
-      } else {
-        return next(new HttpError(403, 'Not authorized as super admin'));
       }
     },
     routeNotFound: (req, res, next) => {

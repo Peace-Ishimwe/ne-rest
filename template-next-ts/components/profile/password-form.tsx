@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import FormInput from "@/components/form-input";
 import { useChangePassword } from "@/hooks/use-auth";
-import { ChangePasswordFormData, changePasswordSchema } from "@/lib/schemas/auth.schemas";
+import { ChangePasswordFormData, changePasswordSchema } from "@/lib/schema/auth.schema";
 
 const PasswordForm = () => {
   const changePasswordMutation = useChangePassword();

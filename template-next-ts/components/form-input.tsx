@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import {
   FormControl,
@@ -11,22 +12,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 
-const FormInput = ({
-  control,
-  name,
-  label,
-  placeholder,
-  type = "text",
-  description,
-  endAdornment,
-}: {
+interface FormInputProps {
   control: any;
   name: string;
   label: string;
   placeholder: string;
   type?: string;
   description?: string;
+  step?: string;
   endAdornment?: React.ReactNode;
+}
+
+const FormInput: React.FC<FormInputProps> = ({
+  control,
+  name,
+  label,
+  placeholder,
+  type = "text",
+  description,
+  step,
+  endAdornment,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,6 +47,7 @@ const FormInput = ({
               <Input
                 placeholder={placeholder}
                 type={type === "password" && showPassword ? "text" : type}
+                step={step}
                 {...field}
                 className="border-gray-300 rounded-md"
               />

@@ -20,7 +20,7 @@ type User = {
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
+  role: "User" | "Admin";
   status: string;
   isVerified: boolean;
   createdAt: Date;

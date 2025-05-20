@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useApp } from "@/contexts/app/app-context";
 import { useResendOtp, useVerifyEmail } from "@/hooks/use-auth";
-import { VerifyEmailFormData, verifyEmailSchema } from "@/lib/schemas/auth.schemas";
+import { VerifyEmailFormData, verifyEmailSchema } from "@/lib/schema/auth.schema";
 
 export default function VerifyEmailPage() {
   const { user } = useApp();

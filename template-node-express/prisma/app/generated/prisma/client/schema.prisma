@@ -1,0 +1,70 @@
+// src/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "app/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//
+// ENUMS
+//
+
+enum CodeType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+enum RoleName {
+  User
+  Admin
+}
+
+enum Status {
+  ENABLED
+  DISABLED
+}
+
+//
+// MODELS
+//
+
+model User {
+  id         String   @id @default(uuid()) @db.Uuid
+  firstName  String
+  lastName   String
+  email      String   @unique
+  password   String
+  role       RoleName @default(User)
+  status     Status   @default(ENABLED)
+  isVerified Boolean  @default(false)
+
+  codes Code[] @relation("UserCodes")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Code {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String
+  type      CodeType
+  userId    String   @db.Uuid
+  user      User     @relation("UserCodes", fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+}
+
+model Parking {
+  id                      String   @id @default(uuid()) @db.Uuid
+  parkingName             String   @unique
+  numberOfAvailableSpaces Int
+  chargingFeesPerHour     Float
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
