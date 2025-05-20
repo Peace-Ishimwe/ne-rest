@@ -3,7 +3,6 @@ type UserRole = "User" | "Admin" | "ParkingAttendant";
 
 // Common navigation items that might be shared across roles
 const COMMON_NAV_ITEMS: NavItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: "mdi:home" },
   {
     name: "Available Parking Lots",
     icon: "mdi:parking",
