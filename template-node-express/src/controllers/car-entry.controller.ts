@@ -205,3 +205,104 @@ export const getAllCarEntries = async (req: Request, res: Response) => {
     return ApiResponse.serverError(res, error);
   }
 };
+
+
+export const getOutgoingCars = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const { role } = req.user;
+
+    if (role !== "Admin" && role !== "ParkingAttendant") {
+      return ApiResponse.error(res, 403, "Only admins and parking attendants can view outgoing cars");
+    }
+
+    const { startDateTime, endDateTime } = req.query;
+
+    if (!startDateTime || !endDateTime) {
+      return ApiResponse.error(res, 400, "Start and end date-time are required");
+    }
+
+    const start = new Date(startDateTime as string);
+    const end = new Date(endDateTime as string);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return ApiResponse.error(res, 400, "Invalid date-time format");
+    }
+
+    if (start >= end) {
+      return ApiResponse.error(res, 400, "Start date-time must be before end date-time");
+    }
+
+    const outgoingCars = await prisma.carEntry.findMany({
+      where: {
+        exitDateTime: {
+          gte: start,
+          lte: end,
+          not: null,
+        },
+      },
+      select: {
+        id: true,
+        plateNumber: true,
+        parkingId: true,
+        entryDateTime: true,
+        exitDateTime: true,
+        chargedAmount: true,
+        parking: { select: { parkingName: true } },
+      },
+    });
+
+    return ApiResponse.success(res, 200, "Outgoing cars retrieved successfully", outgoingCars);
+  } catch (error) {
+    return ApiResponse.serverError(res, error);
+  }
+};
+
+export const getEnteredCars = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const { role } = req.user;
+
+    if (role !== "Admin" && role !== "ParkingAttendant") {
+      return ApiResponse.error(res, 403, "Only admins and parking attendants can view entered cars");
+    }
+
+    const { startDateTime, endDateTime } = req.query;
+
+    if (!startDateTime || !endDateTime) {
+      return ApiResponse.error(res, 400, "Start and end date-time are required");
+    }
+
+    const start = new Date(startDateTime as string);
+    const end = new Date(endDateTime as string);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return ApiResponse.error(res, 400, "Invalid date-time format");
+    }
+
+    if (start >= end) {
+      return ApiResponse.error(res, 400, "Start date-time must be before end date-time");
+    }
+
+    const enteredCars = await prisma.carEntry.findMany({
+      where: {
+        entryDateTime: {
+          gte: start,
+          lte: end,
+        },
+      },
+      select: {
+        id: true,
+        plateNumber: true,
+        parkingId: true,
+        entryDateTime: true,
+        exitDateTime: true,
+        parking: { select: { parkingName: true } },
+      },
+    });
+
+    return ApiResponse.success(res, 200, "Entered cars retrieved successfully", enteredCars);
+  } catch (error) {
+    return ApiResponse.serverError(res, error);
+  }
+};

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCarEntry, getAllCarEntries, getTicket, getTicketsByCarEntry, updateCarExit } from "../controllers/car-entry.controller";
+import { createCarEntry, getAllCarEntries, getEnteredCars, getOutgoingCars, getTicket, getTicketsByCarEntry, updateCarExit } from "../controllers/car-entry.controller";
 import { makeMiddleware } from "../middleware";
 
 const { protect } = makeMiddleware()
@@ -12,5 +12,7 @@ carEntryRouter.put("/:id/exit", updateCarExit);
 carEntryRouter.get("/", getAllCarEntries);
 carEntryRouter.get("/ticket/:id", getTicket);
 carEntryRouter.get("/ticket", getTicketsByCarEntry);
+carEntryRouter.get("/outgoing", getOutgoingCars);
+carEntryRouter.get("/entered", getEnteredCars);
 
 export default carEntryRouter;
