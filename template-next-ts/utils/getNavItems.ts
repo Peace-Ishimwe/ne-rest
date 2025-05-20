@@ -4,8 +4,8 @@ type UserRole = "User" | "Admin" | "ParkingAttendant";
 // Common navigation items that might be shared across roles
 const COMMON_NAV_ITEMS: NavItem[] = [
   {
-    name: "Available Parking Lots",
-    icon: "mdi:parking",
+    name: "Parking Lots",
+    icon: "line-md:brake-parking",
     href: "/dashboard/available-parking",
   },
 ];
@@ -15,7 +15,7 @@ const ROLE_SPECIFIC_NAV_ITEMS: Partial<Record<UserRole, NavItem[]>> = {
   ParkingAttendant: [
     {
       name: "Car Entry",
-      icon: "mdi:car",
+      icon: "fluent:vehicle-car-parking-32-regular",
       href: "/dashboard/car-entry",
     },
     {

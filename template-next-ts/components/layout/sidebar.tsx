@@ -14,6 +14,7 @@ import { getNavItems } from "@/utils/getNavItems";
 import UserCard from "@/components/card/user-card";
 import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 interface Props {
   setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -148,7 +149,10 @@ const DashboardSidebar: React.FC<Props> = ({
         isSidebarMinimized ? "" : "min-w-[264px]"
       }`}
     >
-      <div className="text-primary text-xl font-semibold px-[1rem]">Logo</div>
+      <div className="text-primary text-3xl flex items-center gap-2 font-semibold px-[1rem]">
+        <Image src={"/logo.svg"} alt="Logo" width={40} height={40} />
+        {!isSidebarMinimized && (<p>PMS</p>)}
+      </div>
       <button
         className="absolute -right-2.5 top-10 transform translate-y-[-50%] bg-primary text-white rounded-full w-8 h-8 hidden xl:flex items-center justify-center shadow-md hover:bg-primary-dark transition cursor-pointer"
         onClick={() => setIsSidebarMinimized(!isSidebarMinimized)}

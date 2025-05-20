@@ -19,7 +19,7 @@ const UserCard: FC<props> = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-[14px] hover:bg-neutral-50/10 rounded-lg p-2 cursor-pointer"
+        "flex items-center gap-[14px] hover:bg-neutral-50 rounded-lg p-2 cursor-pointer"
       )}
     >
       <Avatar className="w-14 h-14">
@@ -29,10 +29,10 @@ const UserCard: FC<props> = ({
       </Avatar>
       {!isCollapsed && (
         <div className="flex flex-col gap-2">
-          <h2 className="text-sm font-medium leading-[16px] text-white whitespace-nowrap">
+          <h2 className="text-sm font-medium leading-[16px] text-black whitespace-nowrap">
             {firstName} {lastName}
           </h2>
-          <p className="text-white text-xs font-normal">{email}</p>
+          <p className="text-[#343E4A] text-xs font-normal">{email}</p>
         </div>
       )}
     </div>
