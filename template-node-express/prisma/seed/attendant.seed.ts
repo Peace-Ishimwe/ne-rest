@@ -3,33 +3,33 @@ import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-const SeedAdmin = async () => {
+const SeedAttendant = async () => {
   const password = await bcrypt.hash('password', 10);
 
-  const email = 'admin@pms.com';
+  const email = 'attendant@pms.com';
 
-  const admin = await prisma.user.upsert({
+  const attendant = await prisma.user.upsert({
     where: { email },
     update: {
-      firstName: 'Admin',
+      firstName: 'Attendant',
       lastName: 'User',
       password,
-      role: 'Admin',
+      role: 'ParkingAttendant',
       status: 'ENABLED',
       isVerified: true,
     },
     create: {
-      firstName: 'Admin',
+      firstName: 'Attendant',
       lastName: 'User',
       email,
       password,
-      role: 'Admin',
+      role: 'ParkingAttendant',
       status: 'ENABLED',
       isVerified: true,
     },
   });
 
-  console.log('Admin user seeded:', admin);
+  console.log('Attendant user seeded:', attendant);
 };
 
-export default SeedAdmin;
+export default SeedAttendant;

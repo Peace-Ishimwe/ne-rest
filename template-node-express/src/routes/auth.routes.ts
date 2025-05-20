@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { register, login, verifyEmail, resendOtp, forgotPassword, resetPassword, refreshToken, changePassword } from '../controllers/auth.controller';
 import { makeMiddleware } from '../middleware';
 
-export const authRouter = Router();
+const authRouter = Router();
 
 const { protect } = makeMiddleware()
  
@@ -18,3 +18,5 @@ authRouter.post('/forgot-password', forgotPassword);
 
 // Protected routes
 authRouter.post('/change-password', protect, changePassword);
+
+export default authRouter

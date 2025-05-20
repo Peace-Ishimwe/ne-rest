@@ -151,6 +151,18 @@ exports.Prisma.ParkingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CarEntryScalarFieldEnum = {
+  id: 'id',
+  plateNumber: 'plateNumber',
+  parkingCode: 'parkingCode',
+  parkingId: 'parkingId',
+  entryDateTime: 'entryDateTime',
+  exitDateTime: 'exitDateTime',
+  chargedAmount: 'chargedAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -160,9 +172,15 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.RoleName = exports.$Enums.RoleName = {
   User: 'User',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  ParkingAttendant: 'ParkingAttendant'
 };
 
 exports.Status = exports.$Enums.Status = {
@@ -178,7 +196,8 @@ exports.CodeType = exports.$Enums.CodeType = {
 exports.Prisma.ModelName = {
   User: 'User',
   Code: 'Code',
-  Parking: 'Parking'
+  Parking: 'Parking',
+  CarEntry: 'CarEntry'
 };
 
 /**

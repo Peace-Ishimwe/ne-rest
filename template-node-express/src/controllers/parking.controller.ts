@@ -47,13 +47,6 @@ export const createParking = async (req: Request, res: Response) => {
  */
 export const getAllParkings = async (req: Request, res: Response) => {
     try {
-        // @ts-ignore
-        const { role } = req.user;
-
-        if (role !== 'Admin' && role !== 'User') {
-            return ApiResponse.error(res, 403, 'Only admins and parking attendants can view parking lots');
-        }
-
         const parkings = await prisma.parking.findMany({
             select: {
                 id: true,
