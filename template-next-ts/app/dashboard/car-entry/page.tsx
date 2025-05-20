@@ -325,6 +325,7 @@ const CarEntryTable: React.FC = () => {
 
   const formattedCarEntries = useMemo(() => {
     if (!carEntriesData?.data) return [];
+    console.log(carEntriesData);
 
     return carEntriesData.data.map((carEntry: CarEntry) => ({
       ...carEntry,
@@ -349,6 +350,7 @@ const CarEntryTable: React.FC = () => {
 
   const tableData = formattedCarEntries.map((carEntry: any) => ({
     ...carEntry,
+    parkingName: carEntry.parking.parkingName,
     actions: (
       <div className="flex space-x-2">
         {!carEntry.exitDateTime && (
@@ -367,7 +369,7 @@ const CarEntryTable: React.FC = () => {
         >
           <Icon icon="ic:baseline-receipt" fontSize={18} />
         </button>
-        {carEntry.exitDateTime && ( // Conditionally render "View Bill" button
+        {carEntry.exitDateTime && (
           <button
             className="text-textIcon"
             onClick={() => handleViewBill(carEntry)}

@@ -13,7 +13,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   return (
-    <main className="flex h-screen pb-4 pl-4 bg-[#F6F7F8] gap-3.5 fixed top-0 w-full overflow-y-auto scrollbar border">
+    <main className="flex h-screen pb-4 pl-4 bg-[#FCF9F5] gap-3.5 fixed top-0 w-full overflow-y-auto scrollbar border">
       {isSidebar && (
         <div className="pt-4 sticky top-0 hidden xl:block ">
           <section
@@ -42,7 +42,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </Sheet>
       )}
       <div className="rounded-2xl flex-1 h-full overflow-x-hidden pr-4">
-        <div className="max-w-full flex flex-col gap-y-3.5">
+        <div className="max-w-full flex flex-col gap-y-2">
           <Header setIsSheetOpen={setIsOpen} />
           <div className="p-4 rounded-b-2xl bg-white min-h-[calc(100vh-125px)]">
             {children}
